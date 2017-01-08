@@ -3,10 +3,10 @@ This repository contains the code for Team 47's (The Legends) submersible for th
 
 # Prerequisites
 You need the following programs and libraries:
-* Arduino IDE (arduino.cc)[https://www.arduino.cc/en/Main/Software]
-* Processing IDE (processing)[https://processing.org/download/]
-* ToxicLib (toxiclibs.org)[http://toxiclibs.org/downloads/]
-* i2cdevlib (github.com)[https://codeload.github.com/jrowberg/i2cdevlib/legacy.zip/master]
+* Arduino IDE [arduino.cc](https://www.arduino.cc/en/Main/Software)
+* Processing IDE [processing](https://processing.org/download/)
+* ToxicLib [toxiclibs.org](http://toxiclibs.org/downloads/)
+* i2cdevlib [github.com](https://codeload.github.com/jrowberg/i2cdevlib/legacy.zip/master)
 
 In addition, you need the following hardware:
 * Arduino (tested on an Uno)
