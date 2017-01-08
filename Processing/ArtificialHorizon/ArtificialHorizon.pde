@@ -293,7 +293,6 @@ void PitchScale()
 }
 void DrawCalibrateButton()
 {
-  println(mouseX + ", " + mouseY);
   fill(255);
   rect(100, 50, 150, 50);
   textSize(16);
