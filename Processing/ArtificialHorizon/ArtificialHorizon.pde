@@ -12,7 +12,10 @@ float CompassMagnificationFactor=0.85;
 float SpanAngle=120; 
 int NumberOfScaleMajorDivisions; 
 int NumberOfScaleMinorDivisions; 
-PVector v1, v2; 
+PVector v1, v2;
+float BankOffset;
+float PitchOffset;
+float AzimuthOffset;
 
 Serial port;
 float Phi;    // Dimensional axis
@@ -31,6 +34,7 @@ void setup()
   port = new Serial(this, serialPort, 115200); 
   //Up there you should select port which arduino connected and same baud rate.
   port.bufferUntil('\n');
+  BankOffset = PitchOffset = AzimuthOffset = 0;
 }
 void draw() 
 { 
@@ -69,9 +73,9 @@ void serialEvent(Serial port) //Reading the datas by Processing.
 }
 void MakeAnglesDependentOnMPU6050() 
 { 
-  Bank = -Phi/56;
-  Pitch = Theta * 52;
-  Azimuth=Psi;
+  Bank = (-Phi/56) + BankOffset;
+  Pitch = (Theta * 52) + PitchOffset;
+  Azimuth= (Psi) + AzimuthOffset;
 }
 void Horizon() 
 { 
