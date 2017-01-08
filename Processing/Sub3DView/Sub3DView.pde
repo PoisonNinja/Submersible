@@ -89,9 +89,7 @@ void setup() {
     
     // send single character to trigger DMP init/start
     // (expected by MPU6050_DMP6 example Arduino sketch)
-    interval = millis();
     port.write('r');
-    delay(30000);
 }
 
 void draw() {
