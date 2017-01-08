@@ -1,9 +1,9 @@
-//Thanks to Adrian Fernandez and M.Furkan Bahat November 2014
+//Thanks to Adrian Fernandez for the initial code
 
 import processing.serial.*;
 
-int W=1024;
-int H=768;
+int W = 1024; // If changing this, change the size() parameters to match
+int H = 768;
 float Pitch;
 float Bank; 
 float Azimuth; 
@@ -14,9 +14,8 @@ int NumberOfScaleMajorDivisions;
 int NumberOfScaleMinorDivisions; 
 PVector v1, v2; 
 
-
 Serial port;
-float Phi;    //Dimensional axis
+float Phi;    // Dimensional axis
 float Theta;
 float Psi;
 
@@ -29,7 +28,9 @@ void setup()
 
   println(Serial.list()); //Shows your connected serial ports
   String serialPort = "/dev/cu.usbmodemFD121"; // Serial.list()[0];
-  port = new Serial(this, serialPort, 115200);
+  port = new Serial(this, serialPort, 115200); 
+  //Up there you should select port which arduino connected and same baud rate.
+  port.bufferUntil('\n');
 }
 void draw() 
 { 
@@ -54,8 +55,8 @@ void serialEvent(Serial port) //Reading the datas by Processing.
     input = trim(input);
     String[] values = split(input, " ");
     if (values.length == 3) {
-      float phi = float(values[0]);
-      float theta = float(values[1]); 
+      float theta = float(values[0]);
+      float phi = float(values[1]);
       float psi = float(values[2]); 
       print(phi);
       print(theta);
@@ -68,8 +69,8 @@ void serialEvent(Serial port) //Reading the datas by Processing.
 }
 void MakeAnglesDependentOnMPU6050() 
 { 
-  Bank =-Phi/5; 
-  Pitch=Theta*10; 
+  Bank = -Phi/56;
+  Pitch = Theta * 52;
   Azimuth=Psi;
 }
 void Horizon() 
