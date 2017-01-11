@@ -5,8 +5,8 @@ import processing.serial.*;
 int W = 1024; // If changing this, change the size() parameters to match
 int H = 768;
 float Pitch;
-float Bank; 
-float Azimuth; 
+float Bank;
+float Azimuth;
 float ArtificialHoizonMagnificationFactor=0.7; 
 float CompassMagnificationFactor=0.85; 
 float SpanAngle=120; 
@@ -29,9 +29,39 @@ void setup()
   smooth(); 
   strokeCap(SQUARE);//Optional 
 
-  println(Serial.list()); //Shows your connected serial ports
   String serialPort = "/dev/cu.usbmodemFD121"; // Serial.list()[0];
-  port = new Serial(this, serialPort, 115200); 
+  try {
+    port = new Serial(this, serialPort, 115200);
+  } 
+  catch (Exception e) {
+    println(e.getMessage());
+    println("Attempting autodetection for serial ports (less accurate)");
+    Boolean good = false;
+    int i = 0;
+    while (good == false) {
+      try {
+        serialPort = Serial.list()[i];
+      } 
+      catch (Exception b) {
+        println("Failed to autodetect port. Aborting...");
+        exit();
+      }
+      if (serialPort.toLowerCase().contains("bluetooth")) {
+        println("Rejecting " + serialPort + " because it is a Bluetooth port.");
+      } else {
+        good = true;
+      }
+              i++;
+    }
+    try {
+      port = new Serial(this, serialPort, 115200);
+    } 
+    catch (Exception a) {
+      println("Failed to autodetect port. Aborting...");
+      exit();
+    }
+  }
+  println("Port set to " + serialPort);
   //Up there you should select port which arduino connected and same baud rate.
   port.bufferUntil('\n');
   BankOffset = PitchOffset = AzimuthOffset = 0;
