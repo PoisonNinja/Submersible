@@ -1,0 +1,4 @@
+Sub controller
+X-Axis	Control of left and right	3	SLIDER	x	0	1.0	0.0
+Y-Axis	Control of forwards and backwards	3	SLIDER	y	0	1.0	0.0
+Z-Axis	Control of up and down	3	SLIDER	rz	0	1.0	0.0
