@@ -1,12 +1,10 @@
-//Thanks to Adrian Fernandez
-//Communication updates by M.Furkan Bahat November 2014
-//For more information http://mfurkanbahat.blogspot.com.tr/
+//Thanks to Adrian Fernandez and M.Furkan Bahat November 2014
 
 import processing.serial.*;
 
-int W=1024; //My Laptop's screen width 
-int H=768;  //My Laptop's screen height 
-float Pitch; 
+int W=1024;
+int H=768;
+float Pitch;
 float Bank; 
 float Azimuth; 
 float ArtificialHoizonMagnificationFactor=0.7; 
