@@ -12,6 +12,10 @@ int x;
 int y;
 int z;
 
+float bank;
+float pitch;
+float azimuth;
+
 public void setup() {
   String serialPort = "/dev/cu.usbmodemFD121"; // Serial.list()[0];
   try {
@@ -71,10 +75,26 @@ public void draw() {
   y = int(-stick.getSlider("Y-Axis").getValue() * 255);
   z = int(-stick.getSlider("Z-Axis").getValue() * 255);
   // Deadzone processing
-  if (y <= 20) y = 0;
+  if (y <= 20 && y >= -20) y = 0;
   port.write(x + " " + y + " " + z + '\n');
 }
 
-void serialEvent(Serial port) //Reading the datas by Processing.
+void serialEvent(Serial port)
 {
+  String input = port.readStringUntil('\n');
+  if (input != null) {
+    input = trim(input);
+    String[] values = split(input, " ");
+    if (values.length == 3) {
+      float theta = float(values[0]);
+      float phi = float(values[1]);
+      float psi = float(values[2]);
+      bank = (-phi/56);
+      pitch = (theta * 52);
+      azimuth = (psi);
+      println("Bank: " + bank);
+      println("Pitch: " + pitch);
+      println("Azimuth: " + azimuth);
+    }
+  }
 }
