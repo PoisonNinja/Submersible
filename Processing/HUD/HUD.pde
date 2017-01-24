@@ -65,11 +65,11 @@ void setup()
       // Filter out Bluetooth devices that show up as serial ports
       // Needed for Macs, which have /dev/cu.Bluetooth-Incoming-Port
       // and /dev/tty.Bluetooth-Incoming-Port
-      //if (serialPort.toLowerCase().contains("bluetooth")) {
-      //  println("Rejecting " + serialPort + " because it is a Bluetooth port.");
-      //} else {
-      good = true;
-      //}
+      if (serialPort.toLowerCase().contains("bluetooth")) {
+        println("Rejecting " + serialPort + " because it is a Bluetooth port.");
+      } else {
+        good = true;
+      }
       i++;
     }
     try {
