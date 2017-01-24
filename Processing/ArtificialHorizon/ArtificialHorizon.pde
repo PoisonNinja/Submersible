@@ -29,7 +29,7 @@ void setup()
   smooth(); 
   strokeCap(SQUARE);//Optional 
 
-  String serialPort = "/dev/cu.usbmodemFD121"; // Serial.list()[0];
+  String serialPort = "/dev/cu.usbmodemFA131"; // Serial.list()[0];
   try {
     port = new Serial(this, serialPort, 115200);
   } 
