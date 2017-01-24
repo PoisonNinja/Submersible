@@ -9,7 +9,7 @@ float Bank;
 float Azimuth;
 float ArtificialHoizonMagnificationFactor=0.7; 
 float CompassMagnificationFactor=0.85; 
-float SpanAngle=120; 
+float SpanAngle=120;
 int NumberOfScaleMajorDivisions; 
 int NumberOfScaleMinorDivisions; 
 PVector v1, v2;
@@ -34,6 +34,9 @@ void setup()
     port = new Serial(this, serialPort, 115200);
   } 
   catch (Exception e) {
+    // Oh no! The port doesn't exist
+    // Actually, this will probably be the case for most computers, since
+    // this seems to be a Mac specific port
     println(e.getMessage());
     println("Attempting autodetection for serial ports (less accurate)");
     Boolean good = false;
@@ -43,35 +46,44 @@ void setup()
         serialPort = Serial.list()[i];
       } 
       catch (Exception b) {
-        println("Failed to autodetect port. Aborting...");
-        exit();
+        // No more ports, and yet we are still invalid. Kill ourselves
+        println("Failed to get port name. Aborting...");
+        // Documentation recommends not doing this, but eh, who cares
+        // It's not like it's going to crash, right?
+        System.exit(0);
       }
+      // Filter out Bluetooth devices that show up as serial ports
+      // Needed for Macs, which have /dev/cu.Bluetooth-Incoming-Port
+      // and /dev/tty.Bluetooth-Incoming-Port
       if (serialPort.toLowerCase().contains("bluetooth")) {
         println("Rejecting " + serialPort + " because it is a Bluetooth port.");
       } else {
         good = true;
       }
-              i++;
+      i++;
     }
     try {
       port = new Serial(this, serialPort, 115200);
     } 
     catch (Exception a) {
       println("Failed to autodetect port. Aborting...");
-      exit();
+     System.exit(0);
     }
   }
   println("Port set to " + serialPort);
-  //Up there you should select port which arduino connected and same baud rate.
+  // Send a newline to the Arduino to start the program.
   port.bufferUntil('\n');
   BankOffset = PitchOffset = AzimuthOffset = 0;
 }
 void draw() 
 { 
+  // Save current coordinate plane (for calibrate button later)
   pushMatrix();
   background(0); 
   translate(W/4, H/2.1);  
+  // Translate data from the MPU6050 into angles that we can understand
   MakeAnglesDependentOnMPU6050(); 
+  // Render horizon
   Horizon(); 
   rotate(-Bank); 
   PitchScale(); 
@@ -80,8 +92,9 @@ void draw()
   Borders(); 
   Plane(); 
   ShowAngles(); 
-  Compass(); 
+  Compass();
   ShowAzimuth();
+  // Restore coordinate plane
   popMatrix();
   DrawCalibrateButton();
 }
@@ -101,12 +114,16 @@ void serialEvent(Serial port) //Reading the datas by Processing.
     }
   }
 }
+
 void MakeAnglesDependentOnMPU6050() 
 { 
   Bank = (-Phi/56) - BankOffset;
   Pitch = (Theta * 52) - PitchOffset;
   Azimuth= (Psi) - AzimuthOffset;
 }
+
+// Warning! Lots of math ahead
+
 void Horizon() 
 { 
   scale(ArtificialHoizonMagnificationFactor); 
@@ -330,6 +347,10 @@ void DrawCalibrateButton()
   text("Calibrate", 65, 55);
   if (mousePressed) {
     if (mouseX> 100 && mouseX <100 + 150 && mouseY> 50 && mouseY < 50 + 50) {
+      // They pressed the button!
+      // Add to the offset, not just assigning.
+      // If we just assign the new value, it will just toggle between the
+      // original uncalibrated state and the first calibration state
       BankOffset += Bank;
       PitchOffset += Pitch;
       AzimuthOffset += Azimuth;
