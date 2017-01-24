@@ -15,6 +15,8 @@ float Bank = 0;
 float Pitch = 0;
 float Azimuth = 0;
 
+#define joystickToLEDMultiplier 0.498
+
 SoftwareSerial mySerial(rxPin, txPin);
 
 String getValue(String data, char separator, int index)
@@ -59,11 +61,13 @@ void loop() {
 //            Serial.print(" Azimuth: ");
 //            Serial.println(Azimuth);
             Serial.println(input);
-            int button = Esplora.readButton(SWITCH_DOWN);
-            if (button == LOW)
-                mySerial.println(255);
-            else
-                mySerial.println(0);
+            float y = Esplora.readJoystickY();
+            y *= joystickToLEDMultiplier;
+            if (y > 255)
+                y = 255;
+            else if (y < 0)
+                y = 0;
+            mySerial.println(y);
         }
     }
 }

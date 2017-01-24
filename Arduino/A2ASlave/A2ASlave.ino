@@ -133,8 +133,8 @@ void loop() {
         mySerial.println(ypr[0] * 180/M_PI);
         if (mySerial.available() > 0) {
             String input = mySerial.readStringUntil('\n');
-            int button = SubUtils::getValue(input, ' ', 0).toInt();
-            analogWrite(3, button);
+            float joystickY = SubUtils::getValue(input, ' ', 0).toFloat();
+            analogWrite(3, joystickY);
         }
     }
 }
