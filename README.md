@@ -3,16 +3,16 @@ This repository contains the code for Team 47's (The Legends) submersible for th
 
 # Prerequisites
 You need the following programs and libraries:
-* Arduino IDE
-* Processing IDE
-* ToxicLib
-* i2cdevlib
+* Arduino IDE (arduino.cc)[https://www.arduino.cc/en/Main/Software]
+* Processing IDE (processing)[https://processing.org/download/]
+* ToxicLib (toxiclibs.org)[http://toxiclibs.org/downloads/]
+* i2cdevlib (github.com)[https://codeload.github.com/jrowberg/i2cdevlib/legacy.zip/master]
 
 In addition, you need the following hardware:
 * Arduino (tested on an Uno)
 * Serial cable
 * Jumper wires
-* MPU-6050 Gyro/Accelerometer
+* MPU-6050 Gyro/Accelerometer (Any manufacturer should work)
 
 You can follow the steps [here](http://www.instructables.com/id/MPU6050-Arduino-6-Axis-Accelerometer-Gyro-GY-521-B/?ALLSTEPS) to set up the wiring and libraries.
 
