@@ -6,7 +6,7 @@
 #endif
 
 MPU6050 mpu;
-#define OUTPUT_READABLE_YAWPITCHROLL
+#define OUTPUT_TEAPOT
 #define LED_PIN 13 
 bool blinkState = false;
 
