@@ -38,6 +38,7 @@ void setup()
 }
 void draw() 
 { 
+  pushMatrix();
   background(0); 
   translate(W/4, H/2.1);  
   MakeAnglesDependentOnMPU6050(); 
@@ -51,6 +52,8 @@ void draw()
   ShowAngles(); 
   Compass(); 
   ShowAzimuth();
+  popMatrix();
+  DrawCalibrateButton();
 }
 void serialEvent(Serial port) //Reading the datas by Processing.
 {
@@ -62,9 +65,6 @@ void serialEvent(Serial port) //Reading the datas by Processing.
       float theta = float(values[0]);
       float phi = float(values[1]);
       float psi = float(values[2]); 
-      print(phi);
-      print(theta);
-      println(psi);
       Phi = phi;
       Theta = theta;
       Psi = psi;
@@ -73,9 +73,9 @@ void serialEvent(Serial port) //Reading the datas by Processing.
 }
 void MakeAnglesDependentOnMPU6050() 
 { 
-  Bank = (-Phi/56) + BankOffset;
-  Pitch = (Theta * 52) + PitchOffset;
-  Azimuth= (Psi) + AzimuthOffset;
+  Bank = (-Phi/56) - BankOffset;
+  Pitch = (Theta * 52) - PitchOffset;
+  Azimuth= (Psi) - AzimuthOffset;
 }
 void Horizon() 
 { 
@@ -288,6 +288,22 @@ void PitchScale()
     if ((i==0)==false) 
     {    
       line(25, 25*i, -25, 25*i);
+    }
+  }
+}
+void DrawCalibrateButton()
+{
+  println(mouseX + ", " + mouseY);
+  fill(255);
+  rect(100, 50, 150, 50);
+  textSize(16);
+  fill(0);
+  text("Calibrate", 65, 55);
+  if (mousePressed) {
+    if (mouseX> 100 && mouseX <100 + 150 && mouseY> 50 && mouseY < 50 + 50) {
+      BankOffset += Bank;
+      PitchOffset += Pitch;
+      AzimuthOffset += Azimuth;
     }
   }
 }
