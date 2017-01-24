@@ -53,16 +53,17 @@ void loop() {
             Bank = (-phi/56);
             Pitch = (theta * 52);
             Azimuth = (psi);
-            Serial.print("Bank: ");
-            Serial.print(Bank);
-            Serial.print(" Pitch: ");
-            Serial.print(Pitch);
-            Serial.print(" Azimuth: ");
-            Serial.println(Azimuth);
+//            Serial.print("Bank: ");
+//            Serial.print(Bank);
+//            Serial.print(" Pitch: ");
+//            Serial.print(Pitch);
+//            Serial.print(" Azimuth: ");
+//            Serial.println(Azimuth);
+            Serial.println(input);
             int button = Esplora.readButton(SWITCH_DOWN);
             if (button == LOW)
                 mySerial.println(255);
-            else 
+            else
                 mySerial.println(0);
         }
     }
