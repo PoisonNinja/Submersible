@@ -1,4 +1,5 @@
 #include <SoftwareSerial.h>
+#include "libsub.h"
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
@@ -6,8 +7,6 @@
 #endif
 
 #define LED_PIN 13
-
-#define MAGIC 0xDEADBEEF
 
 /*
    On the Arduino Uno, we can't use hardware serial (0 and 1)
@@ -39,22 +38,6 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady() {
     mpuInterrupt = true;
-}
-
-String getValue(String data, char separator, int index)
-{
-    int found = 0;
-    int strIndex[] = { 0, -1 };
-    int maxIndex = data.length() - 1;
-
-    for (int i = 0; i <= maxIndex && found <= index; i++) {
-        if (data.charAt(i) == separator || i == maxIndex) {
-            found++;
-            strIndex[0] = strIndex[1] + 1;
-            strIndex[1] = (i == maxIndex) ? i+1 : i;
-        }
-    }
-    return found > index ? data.substring(strIndex[0], strIndex[1]) : "";
 }
 
 SoftwareSerial mySerial(rxPin, txPin);
@@ -150,7 +133,7 @@ void loop() {
         mySerial.println(ypr[0] * 180/M_PI);
         if (mySerial.available() > 0) {
             String input = mySerial.readStringUntil('\n');
-            int button = getValue(input, ' ', 0).toInt();
+            int button = SubUtils::getValue(input, ' ', 0).toInt();
             analogWrite(3, button);
         }
     }

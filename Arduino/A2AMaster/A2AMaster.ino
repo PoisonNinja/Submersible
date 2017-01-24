@@ -1,5 +1,6 @@
 #include <SoftwareSerial.h>
 #include <Esplora.h>
+#include "libsub.h"
 
 /*
    Use digital pin 8 (port 6 on the expansion pins) for rx. Any
@@ -9,8 +10,6 @@
 */
 #define rxPin 8
 #define txPin 1
-
-#define MAGIC 0xDEADBEEF
 
 float Bank = 0;
 float Pitch = 0;
@@ -47,9 +46,9 @@ void loop() {
     if (mySerial.available()) {
         String input = mySerial.readStringUntil('\n');
         if (input != NULL) {
-            float theta = getValue(input, ' ', 0).toFloat();
-            float phi = getValue(input, ' ', 1).toFloat();
-            float psi = getValue(input, ' ', 2).toFloat();
+            float theta = SubUtils::getValue(input, ' ', 0).toFloat();
+            float phi = SubUtils::getValue(input, ' ', 1).toFloat();
+            float psi = SubUtils::getValue(input, ' ', 2).toFloat();
             Bank = (-phi/56);
             Pitch = (theta * 52);
             Azimuth = (psi);
