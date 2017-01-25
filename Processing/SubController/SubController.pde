@@ -16,6 +16,10 @@ float bank;
 float pitch;
 float azimuth;
 
+ControlSlider x_axis;
+ControlSlider y_axis;
+ControlSlider z_axis;
+
 public void setup() {
     /*
     * On Mac OS X (Macbook Air 2011), the left USB port maps to cu.usbmodemFD121.
@@ -100,6 +104,9 @@ public void setup() {
         println("No suitable device configured");
         System.exit(0);
     }
+    x_axis = stick.getSlider("X-Axis");
+    y_axis = stick.getSlider("Y-Axis");
+    z_axis = stick.getSlider("Z-Axis");
 }
 
 public void draw() {
@@ -111,9 +118,9 @@ public void draw() {
     * for analogWrite, since the Arduino doesn't do any processing for speed
     * purposes.
     */
-    x = int(stick.getSlider("X-Axis").getValue() * 255);
-    y = int(-stick.getSlider("Y-Axis").getValue() * 255);
-    z = int(-stick.getSlider("Z-Axis").getValue() * 255);
+    x = int(x_axis.getValue() * 255);
+    y = int(-(y_axis.getValue() * 255));
+    z = int(-(z_axis.getValue() * 255));
     /*
     * Add a sort of deadzone. When the stick is in neutral, the values we read
     * aren't actually 0. Usually it ranges from 12 - 18 for y. Thus, we have
