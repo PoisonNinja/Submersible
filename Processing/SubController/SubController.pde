@@ -63,7 +63,7 @@ public void setup() {
                 * Documentation recommends not doing this, but eh, who cares
                 * It's not like it's going to crash, right? Right?
                 */
-                System.exit(0);
+                System.exit(1);
             }
             /*
             * Filter out Bluetooth devices that show up as serial ports
@@ -88,7 +88,7 @@ public void setup() {
         }
         catch (Exception a) {
             println("Failed to autodetect port. Aborting...");
-            System.exit(0);
+            System.exit(1);
         }
     }
     println("Port set to " + serialPort);
@@ -102,7 +102,7 @@ public void setup() {
     stick = control.getMatchedDevice("sub_controller");
     if (stick == null) {
         println("No suitable device configured");
-        System.exit(0);
+        System.exit(1);
     }
     x_axis = stick.getSlider("X-Axis");
     y_axis = stick.getSlider("Y-Axis");
