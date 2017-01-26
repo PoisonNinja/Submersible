@@ -142,12 +142,12 @@ public void draw() {
   motor1 = RightMotorValue;
   if (PitchUpButton.pressed() == true)
   {
-    motor2 = motor3 = 50;
-  } 
+    motor2 = motor3 = 255;
+  }
   else if (PitchDownButton.pressed() == true)
   {
-    motor2 = motor3 = -50;
-  } 
+    motor2 = motor3 = -255;
+  }
   else {
     motor2 = motor3 = 0;
   }
@@ -155,7 +155,7 @@ public void draw() {
     * Send the stick data over to the Arduino in the format "x y z" + a newline
    * only at the end. No carriage returns;
    */
-  println(motor0 + " " + motor1 + " " + motor2 + " " + motor3 + '\n');
+  println(motor0 + " " + motor1 + " " + motor2 + " " + motor3);
   port.write(motor0 + " " + motor1 + " " + motor2 + " " + motor3 + '\n');
 }
 
