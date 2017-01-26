@@ -1,0 +1,9 @@
+Submersible controller
+LeftMotorAxis	Axis to control left motor	3	SLIDER	y	0	1.0	0.0
+RightMotorAxis	Axis to control right motor	3	SLIDER	rz	0	1.0	0.0
+PitchUpButton	Button to pitch up	1	BUTTON	11	0	0.0	0.0
+PitchDownButton	Button to pitch down	1	BUTTON	10	0	0.0	0.0
+CalibrateUpButton	Calibrate motor upwards	1	BUTTON	4	0	0.0	0.0
+CalibrateDownButton	Calibrate motor downwards	1	BUTTON	6	0	0.0	0.0
+SelectRightButton	Select right motor to calibrate	1	BUTTON	5	0	0.0	0.0
+SelectLeftButton	Select left motor to calibrate	1	BUTTON	7	0	0.0	0.0

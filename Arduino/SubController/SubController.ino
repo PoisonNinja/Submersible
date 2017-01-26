@@ -24,6 +24,10 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
+int enablePins[4] = { 9, 11, 0, 0 };
+int pin1[4] = { 2, 12, 0, 0 };
+int pin2[4] = { 4, 8, 0, 0 };
+
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady() {
     mpuInterrupt = true;
@@ -31,6 +35,11 @@ void dmpDataReady() {
 
 void setup() {
     pinMode(3, OUTPUT);
+    for (int i = 0; i < 4; i++) {
+        pinMode(pin1[i], OUTPUT);
+        pinMode(pin2[i], OUTPUT);
+        pinMode(enablePins[i], OUTPUT);
+    }
     Serial.begin(115200);
     // join I2C bus (I2Cdev library doesn't do this automatically)
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
@@ -71,8 +80,14 @@ void setup() {
 
 void loop() {
     String input = Serial.readStringUntil('\n');
-    int joystickY = SubUtils::getValue(input, ' ', 1).toInt();
-    analogWrite(3, joystickY);
+    int motor_0 = SubUtils::getValue(input, ' ', 0).toInt();
+    int motor_1 = SubUtils::getValue(input, ' ', 1).toInt();
+    int motor_2 = SubUtils::getValue(input, ' ', 2).toInt();
+    int motor_3 = SubUtils::getValue(input, ' ', 3).toInt();
+    setMotor(0, (motor_0 < 0) ? -1 * motor_0 : motor_0, (motor_0 < 0) ? 1 : 0);
+    setMotor(1, (motor_1 < 0) ? -1 * motor_1 : motor_1, (motor_1 < 0) ? 1 : 0);
+//    setMotor(2, (motor_2 < 0) ? -motor_2 : motor_2, (motor_2 < 0) ? 1 : 0);
+//    setMotor(3, (motor_3 < 0) ? -motor_3 : motor_3, (motor_3 < 0) ? 1 : 0);
     if (!dmpReady) {
         return;
     } else {
@@ -98,4 +113,11 @@ void loop() {
             Serial.println(ypr[2] * 180/M_PI);
         }
     }
+}
+
+void setMotor(int motorID, int speed, boolean reverse)
+{
+    analogWrite(enablePins[motorID], speed);
+    digitalWrite(pin1[motorID], ! reverse);
+    digitalWrite(pin2[motorID], reverse);
 }
