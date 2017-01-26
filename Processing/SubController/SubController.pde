@@ -17,7 +17,8 @@ float azimuth;
 
 ControlSlider LeftMotorAxis;
 ControlSlider RightMotorAxis;
-ControlSlider z_axis;
+ControlButton PitchUpButton;
+ControlButton PitchDownButton;
 
 int motor0;
 int motor1;
@@ -110,6 +111,8 @@ public void setup() {
   }
   LeftMotorAxis = stick.getSlider("LeftMotorAxis");
   RightMotorAxis = stick.getSlider("RightMotorAxis");
+  PitchUpButton = stick.getButton("PitchUpButton");
+  PitchDownButton = stick.getButton("PitchDownButton");
 }
 
 public void draw() {
@@ -137,12 +140,23 @@ public void draw() {
    */
   motor0 = LeftMotorValue;
   motor1 = RightMotorValue;
+  if (PitchUpButton.pressed() == true)
+  {
+    motor2 = motor3 = 50;
+  } 
+  else if (PitchDownButton.pressed() == true)
+  {
+    motor2 = motor3 = -50;
+  } 
+  else {
+    motor2 = motor3 = 0;
+  }
   /*
     * Send the stick data over to the Arduino in the format "x y z" + a newline
    * only at the end. No carriage returns;
    */
-  println(motor0 + " " + motor1 + " " + 0 + " " + 0 + '\n');
-  port.write(motor0 + " " + motor1 + " " + 0 + " " + 0 + '\n');
+  println(motor0 + " " + motor1 + " " + motor2 + " " + motor3 + '\n');
+  port.write(motor0 + " " + motor1 + " " + motor2 + " " + motor3 + '\n');
 }
 
 void serialEvent(Serial port)

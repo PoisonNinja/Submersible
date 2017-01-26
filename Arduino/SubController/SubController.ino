@@ -6,8 +6,6 @@
 #include "Wire.h"
 #endif
 
-#define LED_PIN 13
-
 MPU6050 mpu;
 bool dmpReady = false;  // set true if DMP init was successful
 uint8_t devStatus;      // return status after each device operation (0 = success, !0 = error)
@@ -24,9 +22,9 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 float euler[3];         // [psi, theta, phi]    Euler angle container
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
-int enablePins[4] = { 9, 11, 0, 0 };
-int pin1[4] = { 2, 12, 0, 0 };
-int pin2[4] = { 4, 8, 0, 0 };
+int enablePins[4] = { 9, 11, 3, 0 };
+int pin1[4] = { 2, 12, 7, 0 };
+int pin2[4] = { 4, 8, 6, 0 };
 
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
 void dmpDataReady() {
@@ -86,7 +84,7 @@ void loop() {
     int motor_3 = SubUtils::getValue(input, ' ', 3).toInt();
     setMotor(0, (motor_0 < 0) ? -1 * motor_0 : motor_0, (motor_0 < 0) ? 1 : 0);
     setMotor(1, (motor_1 < 0) ? -1 * motor_1 : motor_1, (motor_1 < 0) ? 1 : 0);
-//    setMotor(2, (motor_2 < 0) ? -motor_2 : motor_2, (motor_2 < 0) ? 1 : 0);
+    setMotor(2, (motor_2 < 0) ? -motor_2 : motor_2, (motor_2 < 0) ? 1 : 0);
 //    setMotor(3, (motor_3 < 0) ? -motor_3 : motor_3, (motor_3 < 0) ? 1 : 0);
     if (!dmpReady) {
         return;
