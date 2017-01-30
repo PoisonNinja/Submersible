@@ -124,8 +124,8 @@ public void draw() {
    * for analogWrite, since the Arduino doesn't do any processing for speed
    * purposes.
    */
-  LeftMotorValue = int(LeftMotorAxis.getValue() * 255);
-  RightMotorValue = int(-(RightMotorAxis.getValue() * 255));
+  RightMotorValue = int(LeftMotorAxis.getValue() * 255);
+  LeftMotorValue = int(RightMotorAxis.getValue() * 255);
   /*
    * Add a sort of deadzone. When the stick is in neutral, the values we read
    * aren't actually 0. Usually it ranges from 12 - 18 for y. Thus, we have
