@@ -22,14 +22,9 @@
 #define PWM_MOTOR_2 6
 #define PWM_MOTOR_3 10
 
-#define EN_PIN_1 A0
-#define EN_PIN_2 A1
-
 #define MOTOR_0 0
 #define MOTOR_1 1
 #define MOTOR_2 2
-
-unsigned short Motor_Status = BRAKE;
 
 void setup() {
     pinMode(MOTOR_A1_PIN, OUTPUT);
@@ -64,7 +59,7 @@ void setMotor(uint8_t motor, uint8_t direct, uint8_t pwm)         //Function tha
 {
     if (motor == MOTOR_0)
     {
-        if(direct == CW)
+        if (direct == CW)
         {
             digitalWrite(MOTOR_A1_PIN, LOW);
             digitalWrite(MOTOR_B1_PIN, HIGH);
