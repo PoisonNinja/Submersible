@@ -22,6 +22,10 @@
 #define PWM_MOTOR_2 6
 #define PWM_MOTOR_3 10
 
+#define MOTOR_0_ENABLE A0
+#define MOTOR_1_ENABLE A1
+#define MOTOR_2_ENABLE A2
+
 #define MOTOR_0 0
 #define MOTOR_1 1
 #define MOTOR_2 2
@@ -50,9 +54,12 @@ void loop() {
     int motor_1 = SubUtils::getValue(input, ' ', 1).toInt();
     int motor_2 = SubUtils::getValue(input, ' ', 2).toInt();
     int motor_3 = SubUtils::getValue(input, ' ', 3).toInt();
-    setMotor(MOTOR_0, (motor_0 < 255) ? CW : CCW, (motor_0 < 255) ? -1 * motor_0 : motor_0);
-    setMotor(MOTOR_1, (motor_1 < 255) ? CW : CCW, (motor_1 < 255) ? -1 * motor_1 : motor_1);
-    setMotor(MOTOR_2, (motor_2 < 255) ? CW : CCW, (motor_2 < 255) ? -1 * motor_2 : motor_2);
+    digitalWrite(MOTOR_0_ENABLE, HIGH);
+    digitalWrite(MOTOR_1_ENABLE, HIGH);
+    digitalWrite(MOTOR_2_ENABLE, HIGH);
+    setMotor(MOTOR_0, (motor_0 < 0) ? CW : CCW, (motor_0 < 0) ? -1 * motor_0 : motor_0);
+    setMotor(MOTOR_1, (motor_1 < 0) ? CW : CCW, (motor_1 < 0) ? -1 * motor_1 : motor_1);
+    setMotor(MOTOR_2, (motor_2 < 0) ? CW : CCW, (motor_2 < 0) ? -1 * motor_2 : motor_2);
 }
 
 void setMotor(uint8_t motor, uint8_t direct, uint8_t pwm)         //Function that controls the variables: motor(0 ou 1), direction (cw ou ccw) e pwm (entra 0 e 255);
