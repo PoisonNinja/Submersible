@@ -1,24 +1,35 @@
 #include <SoftwareSerial.h>
 #include "libsub.h"
 
+/*
+ * Macros for motor commands
+ */
 #define BRAKE 0
 #define CW    1
 #define CCW   2
-#define CS_THRESHOLD 15   // Definition of safety current (Check: "1.3 Monster Shield Example").
 
-// MOTOR 1
+/*
+ * Motor 1
+ */
 #define MOTOR_A1_PIN 7
 #define MOTOR_B1_PIN 8
 
-// MOTOR 2
+/*
+ * Motor 2
+ */
 #define MOTOR_A2_PIN 4
 #define MOTOR_B2_PIN 9
 
-// MOTOR 3
+/*
+ * Motor 3
+ */
 #define MOTOR_A3_PIN 11
 #define MOTOR_B3_PIN 12
 
-// MOTOR 4
+/*
+ * Motor 4
+ * Uses an analog port because we are out of digital ports
+ */
 #define MOTOR_A4_PIN 2
 #define MOTOR_B4_PIN A0
 
@@ -27,16 +38,18 @@
 #define PWM_MOTOR_3 3
 #define PWM_MOTOR_4 10
 
-#define MOTOR_0_ENABLE A0
-#define MOTOR_1_ENABLE A1
-#define MOTOR_2_ENABLE A2
-
+/*
+ * Macros for identifying motors
+ */
 #define MOTOR_0 0
 #define MOTOR_1 1
 #define MOTOR_2 2
 #define MOTOR_3 3
 
 void setup() {
+    /*
+     * Initialize the pins for output.
+     */
     pinMode(MOTOR_A1_PIN, OUTPUT);
     pinMode(MOTOR_B1_PIN, OUTPUT);
 
@@ -55,15 +68,35 @@ void setup() {
     pinMode(PWM_MOTOR_4, OUTPUT);
 
     Serial.begin(115200);
+    /*
+     * Send a message to kickstart communication. Otherwise, both
+     * Processing and Arduino will wait forever for one of them
+     * to send a message.
+     */
     Serial.println("Ready!");
 }
 
 void loop() {
+    /*
+     * Wait for an entire line of input
+     */
     String input = Serial.readStringUntil('\n');
+    /*
+     * Convert the space seperated line into individual variables.
+     * The getValue function is part of libsub.
+     */
     int motor_0 = SubUtils::getValue(input, ' ', 0).toInt();
     int motor_1 = SubUtils::getValue(input, ' ', 1).toInt();
     int motor_2 = SubUtils::getValue(input, ' ', 2).toInt();
     int motor_3 = SubUtils::getValue(input, ' ', 3).toInt();
+    /*
+     * Command the motors to the proper value. The second parameter
+     * of setMotor takes the direction. Here, we parse the motor_*
+     * values that can range from -255 to 255. If it is less than
+     * 0, we assume that they want to go backwards. Thus, we
+     * reverse the direction and multiply by -1 (since the motor
+     * can't do negative current)
+     */
     setMotor(MOTOR_0, (motor_0 < 0) ? CW : CCW, (motor_0 < 0) ? -1 * motor_0 : motor_0);
     setMotor(MOTOR_1, (motor_1 < 0) ? CW : CCW, (motor_1 < 0) ? -1 * motor_1 : motor_1);
     setMotor(MOTOR_2, (motor_2 < 0) ? CW : CCW, (motor_2 < 0) ? -1 * motor_2 : motor_2);
