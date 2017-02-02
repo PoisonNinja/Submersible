@@ -18,9 +18,14 @@
 #define MOTOR_A3_PIN 11
 #define MOTOR_B3_PIN 12
 
+// MOTOR 4
+#define MOTOR_A4_PIN 2
+#define MOTOR_B4_PIN A0
+
 #define PWM_MOTOR_1 5
 #define PWM_MOTOR_2 6
-#define PWM_MOTOR_3 10
+#define PWM_MOTOR_3 3
+#define PWM_MOTOR_4 10
 
 #define MOTOR_0_ENABLE A0
 #define MOTOR_1_ENABLE A1
@@ -29,6 +34,7 @@
 #define MOTOR_0 0
 #define MOTOR_1 1
 #define MOTOR_2 2
+#define MOTOR_3 3
 
 void setup() {
     pinMode(MOTOR_A1_PIN, OUTPUT);
@@ -40,9 +46,13 @@ void setup() {
     pinMode(MOTOR_A3_PIN, OUTPUT);
     pinMode(MOTOR_B3_PIN, OUTPUT);
 
+    pinMode(MOTOR_A4_PIN, OUTPUT);
+    pinMode(MOTOR_B4_PIN, OUTPUT);
+
     pinMode(PWM_MOTOR_1, OUTPUT);
     pinMode(PWM_MOTOR_2, OUTPUT);
     pinMode(PWM_MOTOR_3, OUTPUT);
+    pinMode(PWM_MOTOR_4, OUTPUT);
 
     Serial.begin(115200);
     Serial.println("Ready!");
@@ -54,12 +64,10 @@ void loop() {
     int motor_1 = SubUtils::getValue(input, ' ', 1).toInt();
     int motor_2 = SubUtils::getValue(input, ' ', 2).toInt();
     int motor_3 = SubUtils::getValue(input, ' ', 3).toInt();
-    digitalWrite(MOTOR_0_ENABLE, HIGH);
-    digitalWrite(MOTOR_1_ENABLE, HIGH);
-    digitalWrite(MOTOR_2_ENABLE, HIGH);
     setMotor(MOTOR_0, (motor_0 < 0) ? CW : CCW, (motor_0 < 0) ? -1 * motor_0 : motor_0);
     setMotor(MOTOR_1, (motor_1 < 0) ? CW : CCW, (motor_1 < 0) ? -1 * motor_1 : motor_1);
     setMotor(MOTOR_2, (motor_2 < 0) ? CW : CCW, (motor_2 < 0) ? -1 * motor_2 : motor_2);
+    setMotor(MOTOR_3, (motor_3 < 0) ? CW : CCW, (motor_3 < 0) ? -1 * motor_3 : motor_3);
 }
 
 void setMotor(uint8_t motor, uint8_t direct, uint8_t pwm)         //Function that controls the variables: motor(0 ou 1), direction (cw ou ccw) e pwm (entra 0 e 255);
@@ -122,6 +130,25 @@ void setMotor(uint8_t motor, uint8_t direct, uint8_t pwm)         //Function tha
             digitalWrite(MOTOR_B3_PIN, LOW);
         }
         analogWrite(PWM_MOTOR_3, pwm);
+    }
+    else if (motor == MOTOR_3)
+    {
+        if (direct == CW)
+        {
+            digitalWrite(MOTOR_A4_PIN, LOW);
+            digitalWrite(MOTOR_B4_PIN, HIGH);
+        }
+        else if (direct == CCW)
+        {
+            digitalWrite(MOTOR_A4_PIN, HIGH);
+            digitalWrite(MOTOR_B4_PIN, LOW);
+        }
+        else
+        {
+            digitalWrite(MOTOR_A4_PIN, LOW);
+            digitalWrite(MOTOR_B4_PIN, LOW);
+        }
+        analogWrite(PWM_MOTOR_4, pwm);
     }
 }
 

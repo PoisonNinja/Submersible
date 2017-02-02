@@ -1,0 +1,7 @@
+Submersible controller
+LeftMotorAxis	LeftMotorAxis	3	SLIDER	y	0	1.0	0.0
+RightMotorAxis	RightMotorAxis	3	SLIDER	rz	0	1.0	0.0
+VerticalRightUp	VerticalRightUp	1	BUTTON	11	0	0.0	0.0
+VerticalRightDown	VerticalRightDown	1	BUTTON	9	0	0.0	0.0
+VerticalLeftUp	VerticalLeftUp	1	BUTTON	10	0	0.0	0.0
+VerticalLeftDown	VerticalLeftDown	1	BUTTON	8	0	0.0	0.0
