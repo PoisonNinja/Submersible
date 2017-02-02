@@ -17,8 +17,10 @@ float azimuth;
 
 ControlSlider LeftMotorAxis;
 ControlSlider RightMotorAxis;
-ControlButton PitchUpButton;
-ControlButton PitchDownButton;
+ControlButton VerticalRightUp;
+ControlButton VerticalRightDown;
+ControlButton VerticalLeftUp;
+ControlButton VerticalLeftDown;
 
 int motor0;
 int motor1;
@@ -111,8 +113,10 @@ public void setup() {
   }
   LeftMotorAxis = stick.getSlider("LeftMotorAxis");
   RightMotorAxis = stick.getSlider("RightMotorAxis");
-  PitchUpButton = stick.getButton("PitchUpButton");
-  PitchDownButton = stick.getButton("PitchDownButton");
+  VerticalRightUp = stick.getButton("VerticalRightUp");
+  VerticalRightDown = stick.getButton("VerticalRightDown");
+  VerticalLeftUp = stick.getButton("VerticalLeftUp");
+  VerticalLeftDown = stick.getButton("VerticalLeftDown");
 }
 
 public void draw() {
@@ -140,16 +144,23 @@ public void draw() {
    */
   motor0 = LeftMotorValue;
   motor1 = RightMotorValue;
-  if (PitchUpButton.pressed() == true)
+  if (VerticalLeftUp.pressed() == true)
   {
-    motor2 = motor3 = 255;
-  }
-  else if (PitchDownButton.pressed() == true)
+    motor2 = -255;
+  } else if (VerticalLeftDown.pressed() == true)
   {
-    motor2 = motor3 = -255;
+    motor2 = 255;
+  } else {
+    motor2 = 0;
   }
-  else {
-    motor2 = motor3 = 0;
+  if (VerticalRightUp.pressed() == true)
+  {
+    motor3 = -255;
+  } else if (VerticalRightDown.pressed() == true)
+  {
+    motor3 = 255;
+  } else {
+    motor3 = 0;
   }
   /*
     * Send the stick data over to the Arduino in the format "x y z" + a newline
